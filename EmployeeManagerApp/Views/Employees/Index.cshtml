@@ -1,0 +1,168 @@
+﻿@model IEnumerable<EmployeeManagement.Models.Employee>
+
+@{
+    int i = 0;
+   
+    ViewData["Title"] = "Index";
+}
+    <div style="display:flex;justify-content:space-between">
+       
+        <h4>Employees</h4>
+        <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Employees" asp-action="SalarySearch">
+            <select class="form-control" aria-label="Default select example" id="search" name="search">
+                <option selected>Select Salary Range</option>
+                <option value="0">Minimum Salary</option>
+                <option value="10000">10000 - 20000</option>
+                <option value="20000">20000 - 30000</option>
+                <option value="30000">30000 - 50000</option>
+                <option value="50000">50000 - 70000</option>
+                <option value="70000">70000 - 90000</option>
+                <option value="90000">90000+</option>
+                <option value="1">Maximum Salary</option>
+
+            </select>
+            <input class="form-control mr-sm-2" type="hidden" id="pageNumber" name="pageNumber">
+
+            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="stype" name="stype" value="true">
+                <label class="custom-control-label" for="stype">DepartmentWise,On</label>
+            </div>
+        </form>
+        <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Employees" asp-action="DepartmentSearch">
+            <input class="form-control mr-sm-2" type="search" placeholder="Department Search" aria-label="Search" id="search" name="search">
+            <input class="form-control mr-sm-2" type="hidden" id="pageNumber" name="pageNumber">
+
+            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+            
+        </form>
+        <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Employees" asp-action="EmployeeSearch">
+            <input class="form-control mr-sm-2" type="search" placeholder="Employee Search" aria-label="Search" id="search" name="search">
+            <input class="form-control mr-sm-2" type="hidden" id="pageNumber" name="pageNumber">
+
+            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+           
+        </form>
+
+
+
+    </div>
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-pageNumber="@ViewBag.current" asp-route-type="1" asp-route-field="EmployeeName" class="">&uarr;</a>
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-pageNumber="@ViewBag.current" asp-route-type="0" asp-route-field="EmployeeName" class="">&darr;</a>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeDept.DepartmentName)
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-type="1" asp-route-pageNumber="@ViewBag.current" asp-route-field="DepartmentName" class="">&uarr;</a>
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-type="0" asp-route-pageNumber="@ViewBag.current" asp-route-field="DepartmentName" class="">&darr;</a>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-type="1" asp-route-pageNumber="@ViewBag.current" asp-route-field="Salary" class="">&uarr;</a>
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-type="0" asp-route-pageNumber="@ViewBag.current" asp-route-field="Salary" class="">&darr;</a>
+
+
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedTime)
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-type="1" asp-route-pageNumber="@ViewBag.current" asp-route-field="CreatedTime" class="">&uarr;</a>
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-type="0" asp-route-pageNumber="@ViewBag.current" asp-route-field="CreatedTime" class="">&darr;</a>
+
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedTime)
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-type="true" asp-route-pageNumber="@ViewBag.current" asp-route-field="UpdatedTime" class="">&uarr;</a>
+                <a asp-controller="Employees" asp-action="Sorting" asp-route-type="false" asp-route-pageNumber="@ViewBag.current" asp-route-field="UpdatedTime" class="">&darr;</a>
+
+
+
+            </th>
+            <th>
+                <h5 class="text-center">Actions</h5>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeDept.DepartmentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @{
+
+                        string date = item.CreatedTime.ToString("dddd, dd MMMM yyyy HH:mm tt");
+
+                        string date1 = item.UpdatedTime.ToString("dddd, dd MMMM yyyy HH:mm tt");
+                    }
+                    <small>@date</small>
+                </td>
+                <td>
+                    <small>@date1</small>
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-sm btn-warning">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-sm btn-secondary">Details</a> |
+
+                    <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#DeleteModal-@item.Id">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <div class="modal fade" id="DeleteModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Employee</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            confirmation to delete.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn bg-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        }
+    </tbody>
+</table>
+<nav aria-label="...">
+    <ul class="pagination">
+        
+        @for (i = 0; i <= ViewBag.totalPages; i++)
+        {
+
+
+            <li class="page-item"><a class="page-link" asp-controller="Employees" asp-action="index" asp-route-pageNumber="@i">@i</a></li>
+
+        }
+        
+    </ul>
+</nav>

@@ -1,0 +1,31 @@
+﻿@model RoleDetailsViewModel
+@{
+    ViewData["Title"] = "RoleDetails";
+}
+
+<h1>RoleDetails</h1>
+<div class="col-md-6">
+    <div class="card">
+        <h5 class="card-header">User in Role</h5>
+        <div class="card-body">
+            @foreach (var user in Model.InRole)
+            {
+                <p>@user.DisplayName</p>
+            }
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <form method="post">
+        <div class="card">
+            <h5 class="card-header">User Not In Role</h5>
+            <div class="card-body">
+                @foreach (var user in Model.NotInRole)
+                {
+                    <p>@user.DisplayName</p>
+                }
+            </div>
+        </div>
+    </form>
+    
+</div>

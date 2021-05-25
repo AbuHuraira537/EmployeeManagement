@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
+using EmployeeManagerApp.Authentication;
 using EmployeeManagerApp.Data;
+using EmployeeManagerApp.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +33,26 @@ namespace EmployeeManagerApp
             services.AddControllersWithViews();
             services.AddDbContext<EmployeeContext>(
                    options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeContext")));
+            
+            services.AddIdentity<Users, IdentityRole>()
+               .AddEntityFrameworkStores<EmployeeContext>()
+               .AddDefaultTokenProviders();
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 1;
+                
+            });
+            
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAccountManager, AccountManager>();
+           
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,7 +73,9 @@ namespace EmployeeManagerApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

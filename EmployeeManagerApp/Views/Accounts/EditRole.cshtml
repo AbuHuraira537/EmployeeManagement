@@ -1,0 +1,32 @@
+﻿@model List<EmployeeManagerApp.ViewModels.UserRoleViewModel>
+
+@{
+    ViewData["Title"] = "EditRole";
+}
+
+<h1>Add OR Remove User From Role</h1>
+
+<div class="col-md-6">
+    <form asp-controller="Accounts" asp-action="UpdateRoleUsers" method="post">
+        <div class="card">
+            <h5 class="card-header">All Users</h5>
+            <div class="card-body">
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                <div class="form-group">
+
+                    <input hidden asp-for="@Model[i].UserId" />
+                    <input name="roleId" id="roleId" value="@ViewBag.roleId" hidden/>
+                    <input hidden asp-for="@Model[i].UserName" />
+                    <input asp-for="@Model[i].IsSelected" />
+                    <label asp-for="@Model[i].IsSelected">@Model[i].UserName</label>
+                </div>
+                }
+
+
+            </div>
+
+        </div>
+        <input type="submit" name="Update" value="Update" />
+    </form>
+</div>

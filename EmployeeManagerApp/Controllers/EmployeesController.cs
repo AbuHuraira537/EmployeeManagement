@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
 using EmployeeManagerApp.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagerApp.Controllers
 {
+    [Authorize(Roles ="Employee")]
     public class EmployeesController : Controller
     {
         private readonly EmployeeContext employeeContext;

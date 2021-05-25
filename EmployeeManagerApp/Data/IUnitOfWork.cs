@@ -9,6 +9,7 @@ namespace EmployeeManagerApp.Data
     {
         IEmployeeRepository Employees { get; }
         IDepartmentRepository Departments { get; }
+        
         Task<int> Save();
     }
 }

@@ -22,7 +22,7 @@ namespace EmployeeManagerApp.Controllers
             this.unit = unit;
         }
 
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
            // IEnumerable<Employee> employee =await unit.Employees.GetAll();
             return View();

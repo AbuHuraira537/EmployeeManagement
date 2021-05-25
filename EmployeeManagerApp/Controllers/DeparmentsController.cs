@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagerApp.Controllers
-{[Authorize]
+{
+    [Authorize(Roles ="Administrator")]
     public class DeparmentsController : Controller
     {
         private readonly EmployeeContext context;
@@ -137,7 +138,7 @@ namespace EmployeeManagerApp.Controllers
                 return RedirectToAction(nameof(Index));
                 
             }
-            catch(Exception ex)
+            catch
             {
                 return View();
             }

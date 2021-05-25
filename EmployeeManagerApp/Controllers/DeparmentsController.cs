@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
 using EmployeeManagerApp.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagerApp.Controllers
-{
+{[Authorize]
     public class DeparmentsController : Controller
     {
         private readonly EmployeeContext context;

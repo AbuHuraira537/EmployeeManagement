@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EmployeeManagerApp.Controllers
 {
     [Authorize(Roles ="Administrator")]
+    //[Authorize]
     public class DeparmentsController : Controller
     {
         private readonly EmployeeContext context;

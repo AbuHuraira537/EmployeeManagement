@@ -32,7 +32,14 @@ namespace EmployeeManagerApp.Data
 
         public async Task<int> Save()
         {
-           return await context.SaveChangesAsync();
+            try
+            {
+                return await context.SaveChangesAsync();
+            }catch(Exception ex)
+            {
+                return 1;
+            }
+           
         }
     }
 }

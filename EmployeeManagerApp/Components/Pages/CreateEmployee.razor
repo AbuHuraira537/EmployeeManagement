@@ -1,0 +1,71 @@
+﻿@inject IUnitOfWork unitOFWork
+
+<h3>CreateEmployee</h3>
+
+<h4>Employee</h4>
+<hr />
+
+    <EditForm Model="@employee" OnValidSubmit="@AddEmployee">
+
+        <div>
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+        </div>
+        <div class="form-group">
+            <label for="EmployeeName" class="control-label"></label>
+            <InputText @bind-Value="@employee.EmployeeName" class="form-control" />
+       
+        </div>
+
+        <div class="form-group">
+            <label for="Salary" class="control-label"></label>
+            <InputNumber class="form-control" @bind-Value="@employee.Salary" />
+     
+        </div>
+        <div class="form-group">
+            <label asp-for="EmployeeDept" class="control-label"></label>
+            <InputSelect id="department" @bind-Value="DepartmentId">
+                @foreach (var dept in departments)
+                {
+                    <option value="@dept.Id.ToString()">@dept.DepartmentName</option>
+                }
+            </InputSelect>
+          
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+
+
+
+
+</EditForm>
+
+
+
+@code { 
+    public Employee employee { get; set; }
+    public IEnumerable<Department> departments { get; set; }
+    [Parameter]
+    public string DepartmentId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        departments = unitOFWork.Departments.GetAllDepartmentsSync();
+        
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        employee = new Employee();
+     await   unitOFWork.Departments.GetAll();
+       // departments =await unitOFWork.Departments.GetAll();
+
+    }
+    private async Task AddEmployee()
+    {
+      await  unitOFWork.Employees.Add(employee,int.Parse(DepartmentId));
+       await unitOFWork.Save();
+    }
+
+}

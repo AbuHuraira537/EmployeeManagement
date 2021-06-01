@@ -21,7 +21,18 @@ namespace EmployeeManagerApp.Data
         {
             entity.CreatedTime = DateTime.Now;
             entity.UpdatedTime = DateTime.Now;
-           await context.Set<Department>().AddAsync(entity);
+            try
+            {
+                await context.Set<Department>().AddAsync(entity);
+            }catch(Exception ex)
+            {
+
+            }
+           
+        }
+        public IEnumerable<Department> GetAllDepartmentsSync()
+        {
+            return context.Set<Department>().ToList();
         }
 
         public async Task AddRange(IEnumerable<Department> entities)

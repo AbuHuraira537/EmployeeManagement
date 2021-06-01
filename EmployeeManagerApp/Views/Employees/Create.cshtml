@@ -43,3 +43,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+@(await Html.RenderComponentAsync<EmployeeManagerApp.Components.Pages.CreateEmployee>(RenderMode.ServerPrerendered))

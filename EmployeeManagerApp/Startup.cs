@@ -31,6 +31,9 @@ namespace EmployeeManagerApp
         {
         
             services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+
             services.AddDbContext<EmployeeContext>(
                    options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeContext")));
             
@@ -82,6 +85,8 @@ namespace EmployeeManagerApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
             });
         }
     }

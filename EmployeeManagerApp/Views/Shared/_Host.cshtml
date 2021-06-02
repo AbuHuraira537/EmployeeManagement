@@ -1,0 +1,8 @@
+﻿@page "/"
+
+@{
+    Layout = "_Layout";
+}
+<app>
+    @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
+</app>

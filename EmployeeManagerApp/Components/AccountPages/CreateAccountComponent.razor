@@ -1,0 +1,71 @@
+﻿@inject IAccountManager accountManager
+@inject NavigationManager navManager
+
+<h3>CreateAccountComponent</h3>
+
+<h1>CreateAccount</h1>
+
+    <h4>CreateAccountViewModel</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm Model="@viewModel" OnValidSubmit="@CreatAccount">
+               <DataAnnotationsValidator/>
+                <ValidationSummary/>
+                <div class="form-group">
+                    <label for="DisplayName" class="control-label">Display Name</label>
+                    <InputText @bind-Value="@viewModel.Account.DisplayName" id="DisplayName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="UserName" class="control-label">User Email</label>
+                    <InputText @bind-Value="@viewModel.Account.UserName"  id="UserName"class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <label  for="Password" class="control-label">Password</label>
+                    <InputText @bind-Value="@viewModel.Password" class="form-control" type="password" id="Password"/>
+
+                </div>
+                <div class="form-group">
+                    <label for="ConfirmPassword" class="control-label">Confirm Password</label>
+                    <InputText @bind-Value="@viewModel.ConfirmPassword" class="form-control" id="ConfirmPassword" type="password" />
+
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </EditForm>
+        </div>
+    </div>
+
+    <div>
+        <NavLink href="@String.Format("Accounts/Index")">Back to List</NavLink>
+    </div>
+
+
+    @code {
+
+        public CreateAccountViewModel viewModel { get; set; }
+        protected override void OnInitialized()
+        {
+            viewModel = new CreateAccountViewModel();
+            base.OnInitialized();
+        }
+
+        protected override Task OnInitializedAsync()
+        {
+            //viewModel = new CreateAccountViewModel();
+            return base.OnInitializedAsync();
+        }
+        private async Task CreatAccount()
+        {
+
+            var err = await accountManager.CreateAccountAsync(viewModel);
+
+            if (err == null)
+            {
+                navManager.NavigateTo("Accounts", true);
+            }
+
+        }
+    }

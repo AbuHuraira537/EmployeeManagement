@@ -4,7 +4,7 @@
     ViewData["Title"] = "EditRole";
 }
 
-<h1>Add OR Remove User From Role</h1>
+@*<h1>Add OR Remove User From Role</h1>
 
 <div class="col-md-6">
     <form asp-controller="Accounts" asp-action="UpdateRoleUsers" method="post">
@@ -29,4 +29,6 @@
         </div>
         <input type="submit" name="Update" value="Update" />
     </form>
-</div>
+</div>*@
+
+@(await Html.RenderComponentAsync<UserRoleComponent>(RenderMode.ServerPrerendered,new {editRoleUsers=Model,roleId=ViewBag.roleId }))

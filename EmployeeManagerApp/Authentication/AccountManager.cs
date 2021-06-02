@@ -111,7 +111,15 @@ namespace EmployeeManagerApp.Authentication
 
         public async Task<bool> Login(LoginViewModel login)
         {
-           var result = await signInManager.PasswordSignInAsync(login.UserName, login.Password, login.RememberMe, false);
+            SignInResult result;
+            try
+            {
+                 result = await signInManager.PasswordSignInAsync(login.UserName, login.Password, login.RememberMe, false);
+
+            }catch(Exception ex)
+            {
+                return false;
+            }
             if (result.Succeeded)
             {
                 return result.Succeeded;

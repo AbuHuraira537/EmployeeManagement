@@ -6,7 +6,7 @@
 
 <h1>Login</h1>
 
-<h4>LoginViewModel</h4>
+@*<h4>LoginViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,5 +37,6 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 
+@(await Html.RenderComponentAsync<EmployeeManagerApp.Components.AccountPages.LoginComponent>(RenderMode.ServerPrerendered))

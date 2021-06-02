@@ -3,5 +3,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-@Model.Address
+@*<h1>Details</h1>
+@Model.Address*@
+
+@(await Html.RenderComponentAsync<UserDetailsComponent>(RenderMode.ServerPrerendered,new { user=Model}))

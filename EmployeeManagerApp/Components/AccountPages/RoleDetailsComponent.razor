@@ -1,0 +1,35 @@
+﻿<h3>RoleDetailsComponent</h3>
+
+<h1>RoleDetails</h1>
+<div class="col-md-6">
+    <div class="card">
+        <h5 class="card-header">User in Role</h5>
+        <div class="card-body">
+            @foreach (var user in roleDetails.InRole)
+            {
+                <p>@user.DisplayName</p>
+            }
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <form method="post">
+        <div class="card">
+            <h5 class="card-header">User Not In Role</h5>
+            <div class="card-body">
+                @foreach (var user in roleDetails.NotInRole)
+                {
+                    <p>@user.DisplayName</p>
+                }
+            </div>
+        </div>
+    </form>
+
+</div>
+<div>
+    <NavLink href="@String.Format("Accounts/Index")">Back to List</NavLink>
+</div>
+@code {
+    [Parameter]
+    public RoleDetailsViewModel roleDetails { get; set; }
+}

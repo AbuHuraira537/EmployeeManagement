@@ -1,13 +1,66 @@
 ﻿@using EmployeeManagerApp.ViewModels
+@using EmployeeManagement.Models
+@using EmployeeManagerApp.Models
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.EntityFrameworkCore;
+@using EmployeeManagerApp.CustomeMiddleWares 
+
+@inject IAccountManager accounts
+@inject NavigationManager navManager
+@inject SignInManager<Users> signInManager
+@inject UserManager<Users> userManager
+
+
+
 
 <h3>LoginComponent</h3>
 <h1>Please Login here</h1>
 
-<EditForm>
+<EditForm Model="@viewModel" OnValidSubmit="@Login">
+    <InputText @bind-Value="@viewModel.UserName" />
+    <InputText @bind-Value="@viewModel.Password" />
 
-
+    <input type="submit" value="login" />
 </EditForm>
 
 @code {
     public LoginViewModel viewModel { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        viewModel = new LoginViewModel();
+        return base.OnInitializedAsync();
+    }
+    private string error;
+
+    private async Task Login()
+    {
+
+        var usr = await userManager.FindByNameAsync(viewModel.UserName);
+        if (usr != null)
+        {
+
+
+            if (await signInManager.CanSignInAsync(usr))
+            {
+                var result = await signInManager.CheckPasswordSignInAsync(usr, viewModel.Password, true);
+                if (result == Microsoft.AspNetCore.Identity.SignInResult.Success)
+                {
+                    Guid key = Guid.NewGuid();
+                    BlazorCookieLoginMiddleware.Logins[key] = new LoginViewModel { UserName = viewModel.UserName, Password = viewModel.Password };
+                    navManager.NavigateTo($"/login?key={key}", true);
+                }
+                else
+                {
+                    error = "Login failed. Check your password.";
+                }
+            }
+            else
+            {
+                error = "Your account is blocked";
+            }
+
+            //await accounts.Login(viewModel);
+
+        } }
 }

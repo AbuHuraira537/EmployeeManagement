@@ -1,4 +1,5 @@
 ﻿@inject IUnitOfWork unitOFWork
+@inject NavigationManager navManager
 
 <h3>CreateEmployee</h3>
 
@@ -52,20 +53,21 @@
     protected override void OnInitialized()
     {
         departments = unitOFWork.Departments.GetAllDepartmentsSync();
-        
+
     }
 
     protected override async Task OnInitializedAsync()
     {
         employee = new Employee();
-     await   unitOFWork.Departments.GetAll();
-       // departments =await unitOFWork.Departments.GetAll();
+        await   unitOFWork.Departments.GetAll();
+        // departments =await unitOFWork.Departments.GetAll();
 
     }
     private async Task AddEmployee()
     {
-      await  unitOFWork.Employees.Add(employee,int.Parse(DepartmentId));
-       await unitOFWork.Save();
+        await  unitOFWork.Employees.Add(employee,int.Parse(DepartmentId));
+        await unitOFWork.Save();
+        navManager.NavigateTo("/", true);
     }
 
 }

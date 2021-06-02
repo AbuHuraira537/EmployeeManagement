@@ -1,0 +1,66 @@
+﻿@inject IAccountManager accountManager
+@inject NavigationManager navManager
+<h3>UserRoleComponent</h3>
+
+<h1>Add OR Remove User From Role</h1>
+
+<div class="col-md-6">
+    <EditForm Model="@editRoleUsers" OnValidSubmit="@EditRoleUsers">
+        <div class="card">
+            <h5 class="card-header">All Users</h5>
+            <div class="card-body">
+                @foreach (var user in editRoleUsers)
+                {
+                    <div class="form-group">
+
+                        <InputText @bind-Value="@user.UserId" hidden />
+                        <InputText name="roleId" id="roleId" @bind-Value="@roleId"  hidden />
+                        <InputText @bind-Value="@user.UserName" hidden  />
+                        <InputCheckbox @bind-Value="@user.IsSelected" name="@user.IsSelected"/>
+                        <label  for="@user.IsSelected">@user.UserName</label>
+                    </div>
+                }
+
+
+            </div>
+
+        </div>
+        <input type="submit" name="Update" value="Update" />
+    </EditForm>
+</div>
+
+
+
+
+@code {
+    [Parameter]
+    public IList<UserRoleViewModel> editRoleUsers { get; set; }
+    [Parameter]
+    public string roleId { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    private async Task EditRoleUsers()
+    {
+
+        var role = await accountManager.GetRole(roleId);
+        for (int i = 0; i < editRoleUsers.Count(); i++)
+        {
+            if (editRoleUsers[i].IsSelected)
+            {
+                await accountManager.AddUserInRole(await accountManager.Get(editRoleUsers[i].UserId), role.Name);
+            }
+            else
+            {
+                await accountManager.RemoveUserFromRole(await accountManager.Get(editRoleUsers[i].UserId), role.Name);
+            }
+        }
+        navManager.NavigateTo("/Counter", false);
+
+    }
+
+}

@@ -1,14 +1,12 @@
-﻿@model ViewUsersAndRolesViewModel
-
-@{
-    ViewData["Title"] = "Index";
-}
+﻿<h3>AccountIndexComponent</h3>
 
 <h1>Index</h1>
 
-@*<p>
-    <a asp-action="CreateAccount" class="btn btn-primary">Create New Account</a>
-    <a asp-action="CreateRole" class="btn btn-secondary">Create New Role</a>
+<p>
+    <NavLink href="@String.Format("Accounts/CreateAccount")" class="btn btn-primary">Create Account</NavLink>
+    <NavLink href="@String.Format("Accounts/CreateRole")" class="btn btn-secondary">Create Role </NavLink>
+    @*<a asp-action="CreateAccount" class="btn btn-primary">Create New Account</a>
+    <a asp-action="CreateRole" class="btn btn-secondary">Create New Role</a>*@
 </p>
 <table class="table">
     <thead>
@@ -27,20 +25,22 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.AllUsers)
+        @foreach (var item in roleAndModel.AllUsers)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DisplayName)
+                    @item.DisplayName
                 </td>
 
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
+                    @item.UserName
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-sm btn-warning">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-sm btn-secondary">Details</a> |
+                    <NavLink href="@String.Format("Accounts/Edit/{0}",item.Id)" class="btn btn-warning">Edit</NavLink>|
+                    <NavLink href="@String.Format("Accounts/Details/{0}",item.Id)" class="btn btn-primary">Details</NavLink>
+                    @*<a asp-action="Edit" asp-route-id="@item.Id" class="btn-sm btn-warning">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-sm btn-secondary">Details</a> |*@
                     <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#DeleteModal-@item.Id">
                         Delete
                     </button>
@@ -60,7 +60,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn bg-danger">Delete</a>
+                            <NavLink href="@String.Format("Accounts/Delete/{0}",item.Id)" class="btn btn-danger">Delete</NavLink>
+                            @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn bg-danger">Delete</a>*@
                         </div>
                     </div>
                 </div>
@@ -72,7 +73,7 @@
 <table class="table">
     <thead>
         <tr>
-           
+
             <th>
                 Name
             </th>
@@ -84,17 +85,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.AllRoles)
+        @foreach (var item in roleAndModel.AllRoles)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @item.Name
                 </td>
 
 
                 <td>
-                    <a asp-action="EditRole" asp-route-roleId="@item.Id" class="btn-sm btn-warning">Edit</a> |
-                    <a asp-action="RoleDetails" asp-route-roleId="@item.Id" class="btn-sm btn-secondary">Details</a> |
+                    @*<a asp-action="EditRole" asp-route-roleId="@item.Id" class="btn-sm btn-warning">Edit</a> |*@
+                    <NavLink href="@String.Format("Accounts/RoleDetails?roleId={0}",item.Id)" class="btn btn-warning">Details</NavLink>
+                    <NavLink href="@String.Format("Accounts/EditRole?roleId={0}",item.Id)" class="btn btn-danger">Edit</NavLink>
                     <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#DeleteModal-@item.Id">
                         Delete
                     </button>
@@ -114,6 +116,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <NavLink href="@String.Format("Accounts/Delete/{0}",item.Id)" class="btn btn-danger">Delete</NavLink>
                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn bg-danger">Delete</a>
                         </div>
                     </div>
@@ -121,6 +124,12 @@
             </div>
         }
     </tbody>
-</table>*@
+</table>
 
-@(await Html.RenderComponentAsync<AccountIndexComponent>(RenderMode.ServerPrerendered,new {roleAndModel=Model }))
+
+
+@code {
+
+    [Parameter]
+    public ViewUsersAndRolesViewModel roleAndModel { get; set; }
+}

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@*<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -75,7 +75,7 @@
             </div>
         }
     </tbody>
-</table>
+</table>*@
 
 
-@(await Html.RenderComponentAsync<EmployeeManagerApp.Components.Pages.DepartmentIndex>(RenderMode.ServerPrerendered))
+@(await Html.RenderComponentAsync<EmployeeManagerApp.Components.Pages.DepartmentIndex>(RenderMode.ServerPrerendered,new { departments=Model}))

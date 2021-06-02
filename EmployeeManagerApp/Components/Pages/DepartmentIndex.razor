@@ -1,5 +1,82 @@
 ﻿<h3>DepartmentIndex</h3>
 
+
+<h1>Index</h1>
+
+<p>
+    <NavLink href="@String.Format("Deparments/Create")">Create new</NavLink>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Department Name
+            </th>
+            <th>
+                Created Time
+            </th>
+            <th>
+               Updated Time
+            </th>
+            <th>
+                <h5 class="text-center">Actions</h5>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in departments)
+        {
+            <tr>
+                <td>
+                    @item.DepartmentName
+                </td>
+
+                <td>
+                    @{
+                        string date = item.CreatedTime.ToString("dddd, dd MMMM yyyy HH:mm tt");
+
+                        string date1 = item.UpdatedTime.ToString("dddd, dd MMMM yyyy HH:mm tt");
+                    }
+                    <small>@date</small>
+                </td>
+                <td>
+                    <small>@date1</small>
+                </td>
+                <td>
+                    <NavLink href="@String.Format("Deparments/Edit/{0}",item.Id)" class="btn-sm btn-warning">Edit</NavLink>
+                    <NavLink href="@String.Format("Deparments/Details/{0}",item.Id)" class="btn-sm btn-secondary">Details</NavLink>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-sm btn-warning">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-sm btn-secondary">Details</a> |
+                    <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#DeleteModal-@item.Id">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <div class="modal fade" id="DeleteModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Employee</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            confirmation to delete.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <NavLink href="@String.Format("Deparments/Delete/{0}",item.Id)" class="btn btn-danger">Delete</NavLink>
+                            @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn bg-danger">Delete</a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>
+
 @code {
     [Parameter]
     public IEnumerable<Department> departments { get; set; }

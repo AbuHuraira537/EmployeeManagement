@@ -40,6 +40,8 @@ namespace EmployeeManagerApp
             services.AddIdentity<Users, IdentityRole>()
                .AddEntityFrameworkStores<EmployeeContext>()
                .AddDefaultTokenProviders();
+           
+            
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;

@@ -4,7 +4,7 @@
     ViewData["Title"] = "CreateRole";
 }
 
-<h1>CreateRole</h1>
+@*<h1>CreateRole</h1>
 
 <h4>CreateRoleViewModel</h4>
 <hr />
@@ -26,5 +26,6 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 
+@(await Html.RenderComponentAsync<CreateRoleComponent>(RenderMode.ServerPrerendered))

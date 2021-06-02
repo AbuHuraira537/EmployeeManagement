@@ -1,0 +1,62 @@
+﻿@inject IUnitOfWork unitOfWork
+@inject NavigationManager navManager
+<h3>EmployeeEdit</h3>
+
+<h1>Edit</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="@employee" OnValidSubmit="@EditEmployee">
+           <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <div hidden>
+                <InputNumber @bind-Value="@employee.Id"  />
+
+            </div>
+            <div class="form-group">
+                <label for="EmployeeName" class="control-label"></label>
+                <InputText @bind-Value="@employee.EmployeeName" class="form-control" />
+                
+            </div>
+            <div class="form-group" hidden>
+                <label for="UpdatedTime" class="control-label"></label>
+                <InputDate @bind-Value="@employee.UpdatedTime" class="form-control" />
+                
+            </div>
+            <div class="form-group" hidden>
+                <label for="CreatedTime" class="control-label"></label>
+                <InputDate @bind-Value="@employee.CreatedTime" class="form-control" />
+                <span asp-validation-for="CreatedTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Salary" class="control-label"></label>
+                <InputNumber @bind-Value="@employee.Salary" class="form-control" />
+               
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <NavLink href="@String.Format("Employees/Index")">Back to List</NavLink>
+</div>
+
+
+@code {
+    [Parameter]
+    public Employee employee { get; set; }
+
+    private async Task EditEmployee()
+    {
+        unitOfWork.Employees.UpdateEmployee(employee);
+        await unitOfWork.Save();
+        navManager.NavigateTo("/", true);
+
+    }
+
+}

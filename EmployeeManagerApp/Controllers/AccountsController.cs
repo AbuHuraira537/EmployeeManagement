@@ -43,7 +43,7 @@ namespace EmployeeManagerApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAccount(CreateAccountViewModel user)
         {
-            
+            //get error response in res 
           var res = await accountManager.CreateAccountAsync(user);
             if (res == null)
             {

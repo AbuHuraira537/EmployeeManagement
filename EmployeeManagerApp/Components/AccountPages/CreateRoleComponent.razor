@@ -1,0 +1,52 @@
+﻿@page "/Employees/Create"
+
+@inject IAccountManager accountManager
+@inject NavigationManager navManager
+
+
+<h3>CreateRoleComponent</h3>
+
+<h1>CreateRole</h1>
+
+<h4>CreateRoleViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="@viewModel" OnValidSubmit="@CreateRole">
+          <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <div class="form-group">
+                <label for="RoleName" class="control-label">Role Name</label>
+                <InputText @bind-Value="@viewModel.RoleName" id="RoleName" class="form-control" />
+                
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <NavLink href="@String.Format("Accounts/Index")">Back to List</NavLink>
+</div>
+
+
+@code {
+    public CreateRoleViewModel viewModel { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        viewModel = new CreateRoleViewModel();
+        return base.OnInitializedAsync();
+    }
+    private async Task CreateRole()
+    {
+        var error =  await accountManager.CreateRole(viewModel);
+        if (error == null)
+        {
+            navManager.NavigateTo("/Accounts/Index", true);
+        }
+    }
+
+}

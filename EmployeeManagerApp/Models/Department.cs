@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EmployeeManagement.Models
@@ -20,6 +21,7 @@ namespace EmployeeManagement.Models
         public DateTime CreatedTime { get; set; }
         [Display(Name = "Updated")]
         public DateTime UpdatedTime { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Employee> Employees { get; set; }
 #nullable enable
         

@@ -14,6 +14,7 @@ namespace EmployeeManagerApp.Data
         //Getting
         Task<Department> Get(int id);
         Task<IEnumerable<Department>> GetAll();
+        IEnumerable<Department> GetAllDepartmentsSync();
         Task<IEnumerable<Department>> Find(Expression<Func<Department, bool>> predicate);
         Task<Department> UpdateDepartment(Department department);
 

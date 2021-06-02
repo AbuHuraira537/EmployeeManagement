@@ -1,4 +1,5 @@
-﻿@inject SignInManager<Users> signInManager;
+﻿
+@inject SignInManager<Users> signInManager;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,8 @@
     <title>@ViewData["Title"] - EmployeeManagerApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <base href="~/" />
 </head>
 <body>
     <header>
@@ -55,12 +58,12 @@
                     }
 
                 </ul>
-             
-               
+
+
                 @*<form class="form-inline my-2 my-lg-0" method="post" asp-controller="Employees" asp-action="Search">
-            <input class="form-control mr-sm-2" type="search" placeholder="Name,salary,Dept.." aria-label="Search" id="search" name="search">
-            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>*@
+                        <input class="form-control mr-sm-2" type="search" placeholder="Name,salary,Dept.." aria-label="Search" id="search" name="search">
+                        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+                    </form>*@
             </div>
         </nav>
     </header>
@@ -69,15 +72,17 @@
             @RenderBody()
         </main>
     </div>
-
+   
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - EmployeeManagerApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script src="~/_framework/blazor.server.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

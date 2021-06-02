@@ -9,6 +9,10 @@ namespace EmployeeManagement.ViewModels
 {
     public class CreateAccountViewModel
     {
+        public CreateAccountViewModel()
+        {
+            Account = new Users();
+        }
         public Users Account { get; set; }
         [Required]
      

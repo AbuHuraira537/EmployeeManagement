@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
 using EmployeeManagerApp.Authentication;
+using EmployeeManagerApp.CustomeMiddleWares;
 using EmployeeManagerApp.Data;
 using EmployeeManagerApp.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,12 +33,17 @@ namespace EmployeeManagerApp
         {
         
             services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+
             services.AddDbContext<EmployeeContext>(
                    options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeContext")));
             
             services.AddIdentity<Users, IdentityRole>()
                .AddEntityFrameworkStores<EmployeeContext>()
                .AddDefaultTokenProviders();
+           
+            
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -50,9 +57,9 @@ namespace EmployeeManagerApp
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAccountManager, AccountManager>();
-           
 
-           
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,12 +83,16 @@ namespace EmployeeManagerApp
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMiddleware<BlazorCookieLoginMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
+                //endpoints.MapFallbackToPage("/_Host");
             });
         }
     }

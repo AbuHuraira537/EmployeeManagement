@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<EmployeeManagement.Models.Employee>
 
-@{
+@*@{
     int i = 0;
    
     ViewData["Title"] = "Index";
@@ -165,4 +165,5 @@
         }
         
     </ul>
-</nav>
+</nav>*@
+@(await Html.RenderComponentAsync<EmployeeIndex>(RenderMode.ServerPrerendered,new {employees=Model,current=ViewBag.current,total= ViewBag.totalPages }))
